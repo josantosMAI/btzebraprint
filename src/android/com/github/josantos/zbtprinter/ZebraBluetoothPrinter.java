@@ -152,10 +152,10 @@ public class ZebraBluetoothPrinter extends CordovaPlugin {
     }
     private void sendLabel(String msg) {
         try {
-            byte[] configLabel = getConfigLabel(msg);
-            printerConnection.write(configLabel);
-            sleep(1500);
-        } catch (ConnectionException e) {
+            //byte[] configLabel = getConfigLabel(msg);
+            printerConnection.write(msg.getBytes());
+            sleep(500);
+        } catch (ConnectionException e) {            
 
         } finally {
             disconnect();
