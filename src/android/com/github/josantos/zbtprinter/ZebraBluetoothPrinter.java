@@ -1,4 +1,4 @@
-package com.github.irvisozuna.zbtprinter;
+package com.github.josantos.zbtprinter;
 
 import java.io.IOException;
 import android.os.Bundle;
