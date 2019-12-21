@@ -21,7 +21,6 @@ import com.zebra.sdk.printer.PrinterLanguage;
 import com.zebra.sdk.printer.ZebraPrinter;
 import com.zebra.sdk.printer.ZebraPrinterFactory;
 import com.zebra.sdk.printer.ZebraPrinterLanguageUnknownException;
-//import com.zebra.sdk.printer.SGD;
 
 public class ZebraBluetoothPrinter extends CordovaPlugin {
 
@@ -97,8 +96,13 @@ public class ZebraBluetoothPrinter extends CordovaPlugin {
             public void run() {
               printer = connect(mac);
               if (printer != null) {
+                  try
+                  {
                   sendLabel(msg);
                   callbackContext.success(msg);
+                  } catch (Exception e) {
+                  callbackContext.error(e.getMessage());
+                  }
               } else {
                   disconnect();
                   callbackContext.error("Error");
