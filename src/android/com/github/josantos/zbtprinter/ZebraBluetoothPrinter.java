@@ -169,7 +169,7 @@ public class ZebraBluetoothPrinter extends CordovaPlugin {
         if (printerLanguage == PrinterLanguage.ZPL) {
             configLabel = msg.getBytes();
         } else if (printerLanguage == PrinterLanguage.CPCL) {
-            String cpclConfigLabel = msg.getBytes();
+            String cpclConfigLabel = msg;
             configLabel = cpclConfigLabel.getBytes();
         }
         return configLabel;
