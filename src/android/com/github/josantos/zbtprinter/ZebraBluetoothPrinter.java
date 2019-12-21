@@ -96,13 +96,8 @@ public class ZebraBluetoothPrinter extends CordovaPlugin {
             public void run() {
               printer = connect(mac);
               if (printer != null) {
-                  try
-                  {
                   sendLabel(msg);
                   callbackContext.success(msg);
-                  } catch (Exception e) {
-                  callbackContext.error(e.getMessage());
-                  }
               } else {
                   disconnect();
                   callbackContext.error("Error");
@@ -156,10 +151,11 @@ public class ZebraBluetoothPrinter extends CordovaPlugin {
         }
     }
     private void sendLabel(String msg) {
-        try {           
-            printerConnection.write(msg.getBytes());
+        try {
+            byte[] configLabel = getConfigLabel(msg);
+            printerConnection.write(configLabel);
             sleep(1500);
-        } catch (ConnectionException e) {            
+        } catch (ConnectionException e) {
 
         } finally {
             disconnect();
@@ -170,10 +166,12 @@ public class ZebraBluetoothPrinter extends CordovaPlugin {
         PrinterLanguage printerLanguage = printer.getPrinterControlLanguage();
 
         byte[] configLabel = null;
-        
-       
-        configLabel = msg.getBytes();
-      
+        if (printerLanguage == PrinterLanguage.ZPL) {
+            configLabel = msg.getBytes();
+        } else if (printerLanguage == PrinterLanguage.CPCL) {
+            String cpclConfigLabel = msg.getBytes();
+            configLabel = cpclConfigLabel.getBytes();
+        }
         return configLabel;
     }
     public static void sleep(int ms) {
